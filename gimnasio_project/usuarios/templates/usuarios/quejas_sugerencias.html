@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inicio - Gimnasio Power</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+</head>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="user-profile">
+            <div class="avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h3>¡Hola, {{ user.username }}!</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="{% url 'mis_reservas' %}"><i class="fas fa-calendar-check"></i> Mis Reservas</a></li>
+                <li class="active"><a href="{% url 'quejas_sugerencias' %}" class="active"><i class="fas fa-comment-dots"></i> Quejas y
+                        Sugerencias</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <section class="formulario">
+            <h2>Envíanos tus comentarios</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="nombre">Nombre (opcional):</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre...">
+
+                <label for="email">Correo electrónico (opcional):</label>
+                <input type="email" id="email" name="email" placeholder="tucorreo@example.com">
+
+                <label for="mensaje">Mensaje:</label>
+                <textarea id="mensaje" name="mensaje" rows="6" required
+                    placeholder="Escribe aquí tu queja o sugerencia..."></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+
+</html>

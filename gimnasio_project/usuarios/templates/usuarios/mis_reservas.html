@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mis Reservas - Gimnasio Power</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3>¡Hola, {{ user.username }}!</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="active"><a href="{% url 'mis_reservas' %}"><i class="fas fa-calendar-check"></i> Mis
+                            Reservas</a></li>
+                    <li><a href="{% url 'quejas_sugerencias' %}" ><i class="fas fa-comment-dots"></i>
+                            Quejas y Sugerencias</a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1 class="section-title"><i class="fas fa-calendar-check"></i> Mis Reservas</h1>
+
+            {% if reservas %}
+            <div class="reservations-list">
+                {% for reserva in reservas %}
+                <div class="reservation-card">
+                    <div class="reservation-info">
+                        <h3>{{ reserva.clase.nombre }}</h3>
+                        <p><i class="far fa-calendar"></i> {{ reserva.clase.horario }}</p>
+                        <p><i class="fas fa-user-tie"></i> {{ reserva.clase.instructor }}</p>
+                        <p><i class="fas fa-chair"></i> Cupos disponibles: {{ reserva.clase.cupos_disponibles }}</p>
+                    </div>
+                    <div class="reservation-actions">
+                        <span class="status active">Confirmada</span>
+                        <a href="{% url 'cancelar_reserva' reserva.id %}" class="cancel-btn">Cancelar reserva</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="far fa-calendar-times"></i>
+                <p>No tienes reservas actualmente.</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</body>
+
+</html>

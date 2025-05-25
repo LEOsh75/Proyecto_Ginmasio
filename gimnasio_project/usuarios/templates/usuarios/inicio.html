@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inicio - Gimnasio Power</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3>¡Hola, {{ user.username }}!</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="{% url 'mis_reservas' %}"><i class="fas fa-calendar-check"></i> Mis Reservas</a></li>
+                    <li><a href="{% url 'quejas_sugerencias' %}" class="active"><i class="fas fa-comment-dots"></i>
+                            Quejas y Sugerencias</a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1 class="section-title"><i class="fas fa-dumbbell"></i> Clases Disponibles</h1>
+
+            <div class="classes-grid">
+                {% for clase in clases %}
+                <article class="class-card">
+                    <header class="class-header">
+                        <h3>{{ clase.nombre }}</h3>
+                        <span class="badge">{{ clase.tipo }}</span>
+                    </header>
+                    <div class="class-description">{{ clase.descripcion }}</div>
+                    <div class="class-details">
+                        <p><i class="far fa-calendar"></i> {{ clase.horario }}</p>
+                        <p><i class="fas fa-user-tie"></i> Instructor: {{ clase.instructor }}</p>
+                        <p><i class="fas fa-chair"></i> Cupos disponibles: {{ clase.cupos_disponibles }}</p>
+                    </div>
+                    {% if clase.cupos_disponibles > 0 %}
+                    <a href="{% url 'reservar_clase' clase.id %}" class="reserve-btn">Reservar</a>
+                    {% else %}
+                    <span class="reserve-btn" style="background: gray; cursor: default;">Agotado</span>
+                    {% endif %}
+                </article>
+                {% empty %}
+                <p>No hay clases disponibles en este momento.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
